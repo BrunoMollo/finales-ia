@@ -22,7 +22,6 @@ opcion(1):-
   writeln("Nombre Menu:"),
   read(M),
   menu(_,M,ListaPlatos),
-  writeln(ListaPlatos),
   obtener_cantidad_con_gluten(ListaPlatos, CantConGluten),
   write("Cantida con gluten: "),write(CantConGluten).
 
@@ -48,14 +47,14 @@ obtener_cantidad_con_gluten([], 0).
 % Base de Conocimeinto
 
 abrir_base:-
-assert(menu(1,'primavera',[1,2,3])),
-assert(menu(2,'verano',[4,5,6])),
-assert(menu(3,'invierno',[4,7])),
-assert(menu(4,'otoño',[5,6])),
-assert(plato(1,ensaladaAlegre,entrada,1,0)),
-assert(plato(2,carneAlegre,principal,1,1)),
-assert(plato(3,postreAlegre,postre,0,1)),
-assert(plato(4,ensaladaCaliente,entrada,1,0)),
-assert(plato(5,carneCaliente,principal,0,1)),
-assert(plato(6,postreCaliente,postre,0,1)),
-assert(plato(7,postreFrio,postre,0,0)).
+  assert(menu(1,'primavera',[1,2,3])),
+  assert(menu(2,'verano',[4,5,6])),
+  assert(menu(3,'invierno',[4,7])),
+  assert(menu(4,'otoño',[5,6])),
+  assert(plato(1,ensaladaAlegre,entrada,1,0)),
+  assert(plato(2,carneAlegre,principal,1,1)),
+  assert(plato(3,postreAlegre,postre,0,1)),
+  assert(plato(4,ensaladaCaliente,entrada,1,0)),
+  assert(plato(5,carneCaliente,principal,0,1)),
+  assert(plato(6,postreCaliente,postre,0,1)),
+  assert(plato(7,postreFrio,postre,0,0)).
