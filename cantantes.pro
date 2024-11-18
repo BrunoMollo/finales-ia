@@ -19,19 +19,44 @@
 inicio:-
   abrir_base,
   writeln(""),
+  writeln(""),
   writeln("1.Lista Intersecion Album/Temas"),
-  writeln("2."),
+  writeln("2. Cuanto suecos"),
   writeln("3."),
+  writeln("0. Salir"),
   read(Op), menu(Op),
   inicio.
 
 
+menu(0):-writeln("Chau"),fail.
 
 menu(1):-
   write("Album: "),read(Album),
   write("Lista temas:"),leer_lista(Temas),
   subconjunto_temas(Album,Temas, ListaOutput),
   writeln(ListaOutput).
+
+% 2)Informar cuantos álbumes fueron lanzados en un determinado año (dato de entrada) 
+% por cantantes de origen sueco.
+% (El formato del campo fecha es dd/mm/aaaa)
+
+menu(2):-
+  write("Año: "), read(Anio),
+  contar_suecos_en_anio(Anio, Cant),
+  write("Cantidad de albumes suecos en el año: "), write(Cant)
+  .
+
+contar_suecos_en_anio(Anio, Cant):-
+  album(_,NombreCantante,_,Fecha,_),
+  retract(album(_,NombreCantante,_,Fecha,_)),
+  sub_atom(Fecha,6,4,_,Anio),
+  cantante(NombreCantante,'sueco'),
+  contar_suecos_en_anio(Anio, Cant2),
+  Cant is Cant2 + 1.
+
+contar_suecos_en_anio(_, 0).
+
+
 
 
 
@@ -65,15 +90,15 @@ pertenece(X,[_|T]):-pertenece(X,T).
 
 
 abrir_base:-
-  assert(cantante('Shakira', 'Colombia')),
-  assert(cantante('The Beatles', 'Reino Unido')),
+  assert(cantante('Shakira', 'sueco')),
+  assert(cantante('The Beatles', 'sueco')),
   assert(cantante('Luis Miguel', 'México')),
   assert(cantante('Queen', 'Reino Unido')),
   
-  assert(album('Laundry Service', 'Shakira', ['Whenever, Wherever', 'Underneath Your Clothes'], 2001, 20000000)),
-  assert(album('Abbey Road', 'The Beatles', ['Come Together', 'Something', 'Here Comes the Sun'], 1969, 31000000)),
-  assert(album('romances', 'Luis Miguel', ['a', 'b', 'c'], 1997, 8000000)),
-  assert(album('A Night at the Opera', 'Queen', ['Bohemian Rhapsody', 'Love of My Life', 'You’re My Best Friend'], 1975, 6000000))
+  assert(album('Laundry Service', 'Shakira', ['Whenever, Wherever', 'Underneath Your Clothes'],  "01-01-1969", 20000000)),
+  assert(album('Abbey Road', 'The Beatles', ['Come Together', 'Something', 'Here Comes the Sun'], "01-01-1969", 31000000)),
+  assert(album('romances', 'Luis Miguel', ['a', 'b', 'c'],  "01-01-1969", 8000000)),
+  assert(album('A Night at the Opera', 'Queen', ['Bohemian Rhapsody', 'Love of My Life', 'You’re My Best Friend'], "12-12-2001", 6000000))
 .
 
 
