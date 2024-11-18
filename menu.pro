@@ -5,6 +5,7 @@
 % 1. Dado un nombre de menu decir cuantos de sus platos contienen gluten.
 % 2. Listar aquellos menu que ninguno de sus platos contiene sal.
 
+
 :-dynamic(menu/3).
 :-dynamic(plato/5).
 
@@ -26,6 +27,24 @@ opcion(1):-
   write("Cantida con gluten: "),write(CantConGluten).
 
 opcion(1):-writeln("Ese Nombre de Menu no existe").
+
+opcion(2):-listar_sin_sal.
+
+
+listar_sin_sal:-
+  retract(menu(_,NombreMenu, ListaIdPlatos)),
+  no_hay_sal(ListaIdPlatos),
+  writeln(NombreMenu),
+  listar_sin_sal.
+
+listar_sin_sal.
+
+
+no_hay_sal([]).
+
+no_hay_sal([IdPlato|T]):-
+  plato(IdPlato,_,_,0,_),
+  no_hay_sal(T).
 
 
 
@@ -51,6 +70,7 @@ abrir_base:-
   assert(menu(2,'verano',[4,5,6])),
   assert(menu(3,'invierno',[4,7])),
   assert(menu(4,'otoño',[5,6])),
+
   assert(plato(1,ensaladaAlegre,entrada,1,0)),
   assert(plato(2,carneAlegre,principal,1,1)),
   assert(plato(3,postreAlegre,postre,0,1)),
