@@ -20,7 +20,7 @@
 inicio:-
   abrir_base,
   writeln(""),
-  writeln("1. Catefras en 2017 con ams de 100 inscriptos"),
+  writeln("1. Catedras en 2017 con mas de 5 inscriptos"),
   writeln("2. Catedras del alumno 2017"),
   writeln("0. Salir"),
   read(Op), Op\=0, menu(Op),
@@ -29,7 +29,19 @@ inicio:-
 
 menu(1):-catedras_numerosas(Lista), writeln(Lista).
 
+menu(2):-writeln("Legajo: "), read(Legajo), inscripciones(Legajo).
 
+inscripciones(Legajo):-
+  comision(Catedra, _,2017,Legajos),
+  retract(comision(Catedra, _,2017,Legajos)),
+  pertenece(Legajo,Legajos),
+  writeln(Catedra),
+  inscripciones(Legajo).
+
+inscripciones(_).
+
+pertenece(H, [H|_]).
+pertenece(X, [_|T]):-pertenece(X,T).
 
 catedras_numerosas([H|T]):-
   comision(H, _,2017,Legajos),
@@ -46,6 +58,7 @@ contar([_|T], Cant):- contar(T, Cant2),Cant is Cant2 +1 .
 
 
 
+
 abrir_base :-
     % Cátedras
     assert(catedra('Matemática I')),
@@ -56,7 +69,7 @@ abrir_base :-
     assert(comision('Matemática I', 'A', 2018, [1234, 5678, 9101, 1234,2345, 2345])),
     assert(comision('Matemática I', 'B', 2017, [2345, 6789])),
     assert(comision('Programación', 'A', 2024, [1234, 3456, 7890,1121,1231,12312])),
-    assert(comision('Física I', 'C', 2017, [5678, 9101,123,12312,12311,12312,213232])),
+    assert(comision('Física I', 'C', 2017, [2345, 9101,123,12312,12311,12312,213232])),
 
     % Alumnos
     assert(alumno(1234, 'Juan Pérez')),
